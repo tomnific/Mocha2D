@@ -6,6 +6,7 @@ import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
 import java.util.Iterator;
+import java.util.LinkedList;
 
 
 
@@ -16,6 +17,7 @@ public class View extends Canvas implements Runnable
 	private static final long serialVersionUID = 1L;
 	
 	private Thread thread;
+	private KeyInput keyInput;
 	
 	private boolean isRunning;
 	private boolean scenePresented;
@@ -46,6 +48,9 @@ public class View extends Canvas implements Runnable
 	{
 		this.scene = scene;
 		this.scene.view = this;
+		this.scene.imageObserver = this;
+		this.scene.controllerView = this;
+		keyInput = new KeyInput(this.scene);
 		this.scene.didMoveToView();
 		addKeyListener(new KeyInput(scene));
 		this.start();
@@ -59,6 +64,9 @@ public class View extends Canvas implements Runnable
 		this.scene = scene;
 		this.scenePresented = true;
 		this.scene.view = this;
+		this.scene.imageObserver = this;
+		this.scene.controllerView = this;
+		keyInput = new KeyInput(this.scene);
 		this.scene.didMoveToView();
 		addKeyListener(new KeyInput(scene));
 		this.start();
@@ -95,15 +103,15 @@ public class View extends Canvas implements Runnable
 					delta--;
 				}
 				
-				this.scene.update();
 				frames++;
+//				this.scene.update();
 				this.render();
 				
 				if(System.currentTimeMillis() - timer > 1000)
 				{
 					timer += 1000;
 					this.fps = frames;
-					System.out.println(updates + "Ticks, Fps" + frames);
+//					System.out.println(updates + "Ticks, Fps" + frames);
 					updates = 0;
 					frames = 0;
 				}
@@ -157,17 +165,45 @@ public class View extends Canvas implements Runnable
 	
 	private void tick()
 	{
+		System.out.println("View Tick!");
 		if (!scene.realChildren.isEmpty())
 		{
-			for (Iterator<Node> childNode = scene.realChildren.iterator(); childNode.hasNext();) 
+			LinkedList<Node> fauxChildren = this.scene.realChildren;
+//			LinkedList<Node> toBeRemoved = new LinkedList<Node>();
+			for (Node node : fauxChildren) 
 			{
-				Node node = childNode.next();
-				
-				node.tick();			
+//				if(node.shouldBeRemoved)
+//				{
+////					scene.realChildren.remove(node);
+//					toBeRemoved.add(node);
+//				}
+//				else
+//				{
+					node.tick();
+//				}
+			}
+			
+//			this.scene.realChildren.removeAll(toBeRemoved);
+			
+			for (int i = 0; i < this.scene.realChildren.size(); i++) 
+			{
+				for (int j = i+1; j < this.scene.realChildren.size(); j++)
+				{
+					if(this.scene.realChildren.get(i).hasPhysicsBody && this.scene.realChildren.get(j).hasPhysicsBody)
+					{
+						if(this.scene.realChildren.get(i).getPhysicsBody().body.intersects(this.scene.realChildren.get(j).getPhysicsBody().body))
+					    {
+							System.out.println("Contact!");
+					    	PhysicsContact contact = new PhysicsContact(this.scene.realChildren.get(i).getPhysicsBody(), this.scene.realChildren.get(j).getPhysicsBody());
+					    	this.scene.didBeginContact(contact);
+					    }
+					}
+				}
 			}
 		}
 		
-		nodeCount = scene.realChildren.size();
+		
+		nodeCount = scene.realChildren.size(); // TODO: doesn't get count children's children
 	}
 	
 	
@@ -196,13 +232,23 @@ public class View extends Canvas implements Runnable
 		
 		if (!scene.realChildren.isEmpty())
 		{
-			for (Iterator<Node> childNode = scene.realChildren.iterator(); childNode.hasNext();) 
+			LinkedList<Node> fauxChildren = this.scene.realChildren;
+			LinkedList<Node> toBeRemoved = new LinkedList<Node>();
+			for (Node node : fauxChildren) 
 			{
-				Node node = childNode.next();
-				
-				node.render(graphics);
+				if(node.shouldBeRemoved)
+				{
+					toBeRemoved.add(node);
+				}
+				else
+				{
+					node.render(graphics);
+				}
 			}
+			
+			this.scene.realChildren.removeAll(toBeRemoved);
 		}
+		
 		
 		if (this.showsFPS && this.showsNodeCount)
 		{
@@ -210,11 +256,11 @@ public class View extends Canvas implements Runnable
 		}
 		else if (this.showsFPS)
 		{
-			graphics.drawString("FPS: " + this.fps, 0, 0);
+			graphics.drawString("FPS: " + this.fps, 5, this.getHeight() - 5);
 		}
 		else if (this.showsNodeCount)
 		{
-			graphics.drawString("Nodes: " + this.nodeCount, 0, 0);
+			graphics.drawString("Nodes: " + this.nodeCount, 5, this.getHeight() - 5);
 		}
 		
 		

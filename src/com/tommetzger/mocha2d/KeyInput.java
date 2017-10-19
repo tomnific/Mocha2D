@@ -13,6 +13,7 @@ class KeyInput extends KeyAdapter
 	
 	
 	
+	
 	public KeyInput(Scene scene)
 	{
 		this.scene = scene;
@@ -20,15 +21,17 @@ class KeyInput extends KeyAdapter
 	
 	
 	
+	
 	public void keyPressed(KeyEvent e)
 	{
-		scene.keyPressed(e);
+		scene.keyDown(e);
 	}
+	
 	
 	
 	
 	public void keyReleased(KeyEvent e)
 	{
-		scene.keyReleased(e);
+		scene.keyUp(e);
 	}
 }

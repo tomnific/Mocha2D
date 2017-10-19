@@ -23,12 +23,17 @@ public abstract class Scene extends Node
 	
 	
 	
-	public abstract void keyPressed(KeyEvent e);
+	public abstract void keyDown(KeyEvent e);
 	
 	
 	
 	
-	public abstract void keyReleased(KeyEvent e);
+	public abstract void keyUp(KeyEvent e);
+	
+	
+	
+	
+	public abstract void didBeginContact(PhysicsContact contact); 
 	
 	
 	

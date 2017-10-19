@@ -8,11 +8,23 @@ import java.awt.Rectangle;
 
 public class PhysicsBody
 {
-	public boolean isDynamic; //effected by gravity
+	Rectangle body;
+	
+	public Node node;
+	
+	public boolean isDynamic = true; //effected by gravity
+	public boolean affectedByGravity = true; //?
+	
+	public int collisionBitMask = 0; //what it collides with
+	public int categoryBitMask = 0; //what collides with it
 	
 	
-	public int collisionBitMask; //what it collides with
-	public int categoryBitMask; //what collides with it
-
-	public Rectangle body;
+	
+	
+	public PhysicsBody(int collisionBitMask, int categoryBitMask)
+	{	
+		this.collisionBitMask = collisionBitMask;
+		
+		this.categoryBitMask = categoryBitMask;
+	}
 }

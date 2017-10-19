@@ -10,6 +10,8 @@ package com.tommetzger.mocha2d;
 import java.awt.Graphics;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
 
 
 
@@ -17,22 +19,17 @@ import java.io.IOException;
 
 public class SpriteNode extends Node
 {
-	public BufferedImage image;
-	
-	
-	
-	
+	private BufferedImage image = null;
 	private BufferedImageLoader loader = new BufferedImageLoader();
 	
-	
+	public int velX = 0;
 	
 	
 	/// Empty SpriteNode constructor.
 	/** Empty SpriteNode constructor. Sets position to (0,0)*/
 	public SpriteNode()
 	{
-		this.position.x = 0;
-		this.position.y = 0;
+		
 	}
 	
 	
@@ -43,64 +40,142 @@ public class SpriteNode extends Node
 	public SpriteNode(double x, double y)
 	{
 		this.position.x = x;
-		this.position.y = y;		
+		this.position.y = y;	
 	}
 	
 	
 	
 	
 	/// Image SpriteNode constructor.
-	/** Image SpriteNode constructor. Sets image to imageNamed
-	 * @throws IOException */
-	public SpriteNode(String imageName) throws IOException
+	/** Image SpriteNode constructor. Sets image to imageNamed*/
+	public SpriteNode(String imageName)
 	{
-		this.image = loader.loadImage(imageName);
-		
-		this.position.x = 0;
-		this.position.y = 0;
+		try 
+		{
+			this.image = loader.loadImage(imageName);
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
 	
 	
 	/// Full SpriteNode constructor.
-	/** Full SpriteNode constructor. Sets image to imageNamed and position to (x,y). 
-	 * @throws IOException */
-	public SpriteNode(double x, double y, String imageNamed) throws IOException
+	/** Full SpriteNode constructor. Sets image to imageNamed and position to (x,y). */
+	public SpriteNode(double x, double y, String imageNamed)
 	{
 		this.position.x = x;
 		this.position.y = y;
 		
-		this.image = loader.loadImage(imageNamed);
-	}
-	
-	
-	
-	
-	/// Changes the position of the SpriteNode to (x,y).
-	/** Changes the position of the SpriteNode to (x,y). For use after the SpriteNode is instantiated.*/
-	public void setPosition(double x, double y)
-	{
-		this.position.x = x;
-		this.position.y = y;
+		try 
+		{
+			this.image = loader.loadImage(imageNamed);
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
 	
 	
 	/// Changes the image of the SpriteNode to imageNamed.
-	/** Changes the image of the SpriteNode to imageNamed. For use after the SpriteNode is instantiated.
-	 * @throws IOException */
-	public void setImage(String imageNamed) throws IOException
+	/** Changes the image of the SpriteNode to imageNamed. For use after the SpriteNode is instantiated. */
+	public void setImage(String imageNamed)
 	{
-		this.image = loader.loadImage(imageNamed);
+		try 
+		{
+			this.image = loader.loadImage(imageNamed);
+		} 
+		catch (IOException e) 
+		{
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	
 	
 	
-	void render(Graphics g)
+	public BufferedImage getImage()
 	{
-		g.drawImage(this.image, (int)this.position.x, (int)this.position.y, null);
+		return this.image;
+	}
+	
+	
+	
+	
+	void tick()
+	{
+		System.out.println("   -SpriteNode Tick");
+//		this.position.x += velX;
+		if (!this.realChildren.isEmpty())
+		{
+			LinkedList<Node> fauxChildren = this.realChildren;
+			LinkedList<Node> toBeRemoved = new LinkedList<Node>();
+			for (Node node : fauxChildren) 
+			{
+				
+				if (node.shouldBeRemoved)
+				{
+					toBeRemoved.add(node);
+				}
+				else
+				{
+					node.tick();
+				}
+			}
+			
+			this.realChildren.removeAll(toBeRemoved);
+		}
+		
+		
+		if (this.hasActions)
+		{
+			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
+			{
+				Action action = childAction.next();
+				if (!action.actionComplete)
+				{
+					action.tick();
+				}
+			}
+		}
+				
+		if (this.hasPhysicsBody)
+		{
+			this.getPhysicsBody().body= this.getBounds();
+		}
+	}
+	
+	
+	
+	
+	void render(Graphics graphics)
+	{
+		final Graphics g = graphics.create();
+		
+		
+		if (!this.realChildren.isEmpty())
+		{
+			LinkedList<Node> fauxChildren = this.realChildren;
+			for (Node node : fauxChildren) 
+			{
+				node.render(g);
+			}
+
+		}
+		
+		
+		g.drawImage(this.image, (int)this.position.x, (int)this.position.y, (int)this.size.width, (int)this.size.height, this.imageObserver);
+		
+		
+		g.dispose();
 	}
 }

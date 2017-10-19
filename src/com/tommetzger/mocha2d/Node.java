@@ -10,6 +10,7 @@ package com.tommetzger.mocha2d;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;
+import java.awt.image.ImageObserver;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -24,7 +25,7 @@ public class Node
 		public double x;
 		public double y;
 		
-		public Position ()
+		public Position()
 		{
 			x = 0;
 			y = 0;
@@ -34,17 +35,34 @@ public class Node
 	
 	
 	
+	public class Size
+	{
+		public double width;
+		public double height;
+		
+		public Size()
+		{
+			width = 32;
+			height = 32;
+		}
+	}
+	
+	
+	
+	
 	public boolean hasActions;
-	LinkedList<Action> actions;
+	LinkedList<Action> actions = new LinkedList<Action>();;
 	
 	
 	public Position position = new Position();
-	public double zPosition;
+	public double zPosition = 0;
+	
+	public Size size = new Size();
+//	private double xScale = 1;
+//	private double yScale = 1;
 	
 	public double zRotation;
 	
-	public double xScale;
-	public double yScale;
 	
 	public double alpha;
 	public boolean isVisible;
@@ -53,20 +71,26 @@ public class Node
 	
 	public String name;
 	
-	public PhysicsBody physicsBody;
+	private PhysicsBody physicsBody;
+	boolean hasPhysicsBody = false;
 	
 	public Node[] children;
 	
+	private Node parent;
+	boolean shouldBeRemoved = false;
+	
+	
 	LinkedList<Node> realChildren = new LinkedList<Node>();
+	
+	ImageObserver imageObserver;
+	View controllerView;
 		
 	
 	
 	
 	public Node ()
 	{
-		position.x = 0;
-		position.y = 0;
-		zPosition = 0;
+		
 	}
 	
 	
@@ -75,16 +99,50 @@ public class Node
 	{
 		position.x = x;
 		position.y = y;
-		zPosition = 0; 
 	}
 	
 	
 	
 	
-	public void setScale(double scale)
+//	public void setScale(double scale)
+//	{
+//		this.xScale = scale;
+//		this.yScale = scale;
+//		this.size.width = this.size.width * scale;
+//		this.size.height = this.size.height * scale;
+//	}
+	
+	
+	
+	
+	public Rectangle getBounds()
 	{
-		xScale = scale;
-		yScale = scale;
+		return new Rectangle((int)this.position.x, (int)this.position.y, (int)this.size.width, (int)this.size.height);
+	}
+	
+	
+	
+	
+	public PhysicsBody getPhysicsBody() 
+	{
+		return this.physicsBody;
+	}
+
+
+
+	public void setPhysicsBody(PhysicsBody physicsBody) 
+	{
+		this.physicsBody = physicsBody;
+		this.physicsBody.node = this;
+		this.physicsBody.body = this.getBounds();
+		this.hasPhysicsBody = true;
+	}
+
+
+
+	public Node getParent()
+	{
+		return this.parent;
 	}
 	
 	
@@ -92,6 +150,10 @@ public class Node
 	
 	public void addChild(Node child)
 	{
+		child.parent = this;
+		child.imageObserver = this.imageObserver;
+		child.controllerView = this.controllerView;
+		
 		realChildren.add(child);
 		
 		children = realChildren.toArray(new Node[realChildren.size()]);
@@ -120,6 +182,15 @@ public class Node
 	
 	
 	
+	public void removeFromParent()
+	{
+		this.parent = null;
+		this.shouldBeRemoved = true;
+	}
+	
+	
+	
+	
 	
 //	public Rect getBounds()
 //	{
@@ -139,8 +210,18 @@ public class Node
 	
 	public void runAction(Action action)
 	{
+		action.node = this;
 		this.actions.add(action);
-		hasActions = true;
+		this.hasActions = true;
+	}
+	
+	
+	
+	
+	public void clearActions()
+	{
+		this.hasActions = false;
+		this.actions.clear();
 	}
 	
 	
@@ -149,23 +230,25 @@ public class Node
 	
 	void tick()
 	{
+		System.out.println("   +Node Tick");
 		if (!this.realChildren.isEmpty())
 		{
-			for (Iterator<Node> childNode = this.realChildren.iterator(); childNode.hasNext();) 
+			LinkedList<Node> fauxChildren = this.realChildren;
+			LinkedList<Node> toBeRemoved = new LinkedList<Node>();
+			for (Node node : fauxChildren) 
 			{
-				Node node = childNode.next();
 				
-				node.tick();
-				
-				if (node.hasActions)
+				if (node.shouldBeRemoved)
 				{
-					for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
-					{
-						Action action = childAction.next();
-						action.runAction();
-					}
+					toBeRemoved.add(node);
+				}
+				else
+				{
+					node.tick();
 				}
 			}
+			
+			this.realChildren.removeAll(toBeRemoved);
 		}
 		
 		
@@ -174,43 +257,36 @@ public class Node
 			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
 			{
 				Action action = childAction.next();
-				action.runAction();
+				if (!action.actionComplete)
+				{
+					action.tick();
+				}
 			}
+		}
+		
+		if (this.hasPhysicsBody)
+		{
+			this.getPhysicsBody().body= this.getBounds();
 		}
 	}
 	
 	
 	
 	
-	void render(Graphics g)
+	void render(Graphics graphics)
 	{
+		final Graphics g = graphics.create();
+		
 		if (!this.realChildren.isEmpty())
 		{
-			for (Iterator<Node> childNode = this.realChildren.iterator(); childNode.hasNext();) 
+			LinkedList<Node> fauxChildren = this.realChildren;
+			for (Node node : fauxChildren) 
 			{
-				Node node = childNode.next();
-				
 				node.render(g);
-				
-				if (node.hasActions)
-				{
-					for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
-					{
-						Action action = childAction.next();
-						action.drawAction(g);
-					}
-				}
 			}
 		}
 		
 		
-		if (this.hasActions)
-		{
-			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
-			{
-				Action action = childAction.next();
-				action.drawAction(g);
-			}
-		}
+		g.dispose();
 	}
 }

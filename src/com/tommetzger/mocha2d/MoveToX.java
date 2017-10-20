@@ -4,13 +4,13 @@ package com.tommetzger.mocha2d;
 
 
 
-class MoveNodeToX extends Action
+class MoveToX extends Action
 {
 	private double destX;
 	
 	
 	
-	public MoveNodeToX(double x)
+	public MoveToX(double x)
 	{
 		destX = x;
 	}

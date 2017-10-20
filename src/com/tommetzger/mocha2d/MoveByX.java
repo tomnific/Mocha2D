@@ -6,14 +6,14 @@ import java.awt.Graphics;
 
 
 
-class MoveNodeByX extends Action 
+class MoveByX extends Action 
 {
 	private double velX;
 	private double destX;
 	
 	
 	
-	public MoveNodeByX(double x)
+	public MoveByX(double x)
 	{
 		velX = x;
 	}

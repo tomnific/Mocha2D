@@ -4,26 +4,23 @@ package com.tommetzger.mocha2d;
 
 
 
-class MoveNodeByY extends Action 
+class MoveToY extends Action
 {
-	private double velY;
 	private double destY;
 	
 	
 	
-	public MoveNodeByY(double y)
+	public MoveToY(double y)
 	{
-		velY = y;
+		destY = y;
 	}
 	
 	
 	
 	
 	public void tick()
-	{
-		destY = this.node.position.y + velY;
-		
-		if (velY > 0)
+	{	
+		if (destY > this.node.position.y)
 		{
 			this.node.position.y++;
 		}

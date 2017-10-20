@@ -25,40 +25,36 @@ public class Action
 	
 	
 	
-	public static Action moveNodeByX(Node node, double x)
+	public static Action moveByX(double x)
 	{
-		MoveNodeByX action = new MoveNodeByX(x);
-		action.node = node;
+		MoveByX action = new MoveByX(x);
 		return action; 
 	}
 	
 	
 	
 	
-	public static Action moveNodeByY(Node node, double y)
+	public static Action moveByY(double y)
 	{
-		MoveNodeByY action = new MoveNodeByY(y);
-		action.node = node;
+		MoveByY action = new MoveByY(y);
 		return action; 
 	}
 	
 	
 	
 	
-	public static Action moveNodeToX(Node node, double x)
+	public static Action moveToX(double x)
 	{
-		MoveNodeToX action = new MoveNodeToX(x);
-		action.node = node;
+		MoveToX action = new MoveToX(x);
 		return action; 
 	}
 	
 	
 	
 	
-	public static Action moveNodeToY(Node node, double x)
+	public static Action moveToY(double x)
 	{
-		MoveNodeToY action = new MoveNodeToY(x);
-		action.node = node;
+		MoveToY action = new MoveToY(x);
 		return action; 
 	}
 	

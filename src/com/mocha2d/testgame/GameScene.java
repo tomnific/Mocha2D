@@ -90,25 +90,25 @@ public class GameScene extends Scene
 		
 		if(key == KeyEvent.VK_RIGHT)
 		{
-			Action action = Action.moveNodeByX(player, 3);
+			Action action = Action.moveByX(3);
 			
 			player.runAction(action);
 		}
 		else if(key == KeyEvent.VK_LEFT)
 		{
-			Action action = Action.moveNodeByX(player, -3);
+			Action action = Action.moveByX(-3);
 			
 			player.runAction(action);
 		}
 		else if(key == KeyEvent.VK_UP)
 		{
-			Action action = Action.moveNodeByY(player, -3);
+			Action action = Action.moveByY(-3);
 			
 			player.runAction(action);
 		}
 		else if(key == KeyEvent.VK_DOWN)
 		{
-			Action action = Action.moveNodeByY(player, 3);
+			Action action = Action.moveByY(3);
 			
 			player.runAction(action);
 		}
@@ -148,11 +148,10 @@ public class GameScene extends Scene
 			SpriteNode missile = new SpriteNode("/spaceship.png");
 			missile.position.x = player.position.x;
 			missile.position.y = player.position.y;
-//			missile.position.y = 100;
-			
+
 			this.addChild(missile);
 			
-			Action action = Action.moveNodeToY(missile, -25);
+			Action action = Action.moveToY(-25);
 			
 			missile.runAction(action);
 		}

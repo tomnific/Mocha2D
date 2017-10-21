@@ -1,6 +1,7 @@
 package com.tommetzger.mocha2d;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 
 
@@ -18,7 +19,16 @@ public abstract class Scene extends Node
 	
 	
 	
-	public abstract void update(); //tick()
+	public abstract void mouseDown(MouseEvent e);
+	
+	
+	
+	
+	public abstract void mouseDragged(MouseEvent e);
+	
+	
+	
+	public abstract void mouseUp(MouseEvent e);
 	
 	
 	
@@ -29,6 +39,11 @@ public abstract class Scene extends Node
 	
 	
 	public abstract void keyUp(KeyEvent e);
+	
+	
+	
+	
+	public abstract void update();
 	
 	
 	

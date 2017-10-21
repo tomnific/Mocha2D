@@ -230,7 +230,7 @@ public class Node
 	
 	void tick()
 	{
-		System.out.println("   +Node Tick");
+//		System.out.println("   +Node Tick");
 		if (!this.realChildren.isEmpty())
 		{
 			LinkedList<Node> fauxChildren = this.realChildren;

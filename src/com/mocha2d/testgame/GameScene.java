@@ -1,6 +1,7 @@
 package com.mocha2d.testgame;
 
 import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
 
 import com.tommetzger.mocha2d.*;
 
@@ -170,5 +171,35 @@ public class GameScene extends Scene
 		{
 			secondBody.node.removeFromParent();
 		}
+	}
+
+
+
+
+	@Override
+	public void mouseDown(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Down!");
+	}
+
+
+
+
+	@Override
+	public void mouseDragged(MouseEvent e) 
+	{
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Dragged!");
+	}
+
+
+
+
+	@Override
+	public void mouseUp(MouseEvent e) 
+	{
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Up!");
 	}
 }

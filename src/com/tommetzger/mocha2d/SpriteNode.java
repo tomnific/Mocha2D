@@ -113,7 +113,7 @@ public class SpriteNode extends Node
 	
 	void tick()
 	{
-		System.out.println("   -SpriteNode Tick");
+//		System.out.println("   -SpriteNode Tick");
 //		this.position.x += velX;
 		if (!this.realChildren.isEmpty())
 		{

@@ -1,0 +1,12 @@
+TODO - v0.1
+
+- Node Types
+	• ShapeNode implementation
+	
+- Action Types
+	• Fix MoveBy Actions (they move exponentially faster)
+	
+- Scene
+		
+- View
+	• Fix ConcurrentModificationError in render() (then also fix in other render() functions)

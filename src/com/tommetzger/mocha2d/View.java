@@ -5,7 +5,6 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.RenderingHints;
 import java.awt.image.BufferStrategy;
-import java.util.Iterator;
 import java.util.LinkedList;
 
 
@@ -18,6 +17,7 @@ public class View extends Canvas implements Runnable
 	
 	private Thread thread;
 	private KeyInput keyInput;
+	private MouseInput mouseInput;
 	
 	private boolean isRunning;
 	private boolean scenePresented;
@@ -51,8 +51,11 @@ public class View extends Canvas implements Runnable
 		this.scene.imageObserver = this;
 		this.scene.controllerView = this;
 		keyInput = new KeyInput(this.scene);
+		mouseInput = new MouseInput(this.scene);
 		this.scene.didMoveToView();
-		addKeyListener(new KeyInput(scene));
+		addKeyListener(keyInput);
+		addMouseListener(mouseInput);
+		addMouseMotionListener(mouseInput);
 		this.start();
 	}
 	
@@ -67,8 +70,11 @@ public class View extends Canvas implements Runnable
 		this.scene.imageObserver = this;
 		this.scene.controllerView = this;
 		keyInput = new KeyInput(this.scene);
+		mouseInput = new MouseInput(this.scene);
 		this.scene.didMoveToView();
-		addKeyListener(new KeyInput(scene));
+		addKeyListener(keyInput);
+		addMouseListener(mouseInput);
+		addMouseMotionListener(mouseInput);
 		this.start();
 	}
 	
@@ -165,7 +171,7 @@ public class View extends Canvas implements Runnable
 	
 	private void tick()
 	{
-		System.out.println("View Tick!");
+//		System.out.println("View Tick!");
 		if (!scene.realChildren.isEmpty())
 		{
 			LinkedList<Node> fauxChildren = this.scene.realChildren;

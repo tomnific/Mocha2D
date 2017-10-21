@@ -10,7 +10,7 @@ First, you need to make your `Scene`. To do this, create a new Java class that i
 ```java
 package com.yourorganization.yourproject;
 
-import com.tommetzger.mocha2d.*;
+import com.mocha2d.*;
 
 
 public class GameScene extends Scene
@@ -29,7 +29,17 @@ public class GameScene extends Scene
 	}
 	
 	@Override
-	public void update() 
+	public void mouseDown(MouseEvent e) 
+	{
+	}
+	
+	@Override
+	public void mouseDragged(MouseEvent e) 
+	{
+	}
+	
+	@Override
+	public void mouseUp(MouseEvent e) 
 	{
 	}
 	
@@ -40,6 +50,11 @@ public class GameScene extends Scene
 	
 	@Override
 	public void keyUp(KeyEvent e) 
+	{
+	}
+	
+	@Override
+	public void update() 
 	{
 	}
 	
@@ -60,7 +75,7 @@ To start, you need to create a new class that is a subclass of the Java `Canvas`
 ```java
 package com.yourorganization.yourproject;
 
-import com.tommetzger.mocha2d.*;
+import com.mocha2d.*;
 import java.awt.Canvas;
 import java.awt.Dimension;
 

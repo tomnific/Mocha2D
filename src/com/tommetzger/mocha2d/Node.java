@@ -51,7 +51,8 @@ public class Node
 	
 	
 	public boolean hasActions;
-	LinkedList<Action> actions = new LinkedList<Action>();;
+	LinkedList<Action> actions = new LinkedList<Action>();
+	LinkedList<Action> actionsToAdd = new LinkedList<Action>();
 	
 	
 	public Position position = new Position();
@@ -81,6 +82,7 @@ public class Node
 	
 	
 	LinkedList<Node> realChildren = new LinkedList<Node>();
+	LinkedList<Node> realChildrenToAdd = new LinkedList<Node>();
 	
 	ImageObserver imageObserver;
 	View controllerView;
@@ -154,9 +156,9 @@ public class Node
 		child.imageObserver = this.imageObserver;
 		child.controllerView = this.controllerView;
 		
-		realChildren.add(child);
+		realChildrenToAdd.add(child);
 		
-		children = realChildren.toArray(new Node[realChildren.size()]);
+//		children = realChildren.toArray(new Node[realChildren.size()]);
 	}
 	
 	
@@ -211,7 +213,8 @@ public class Node
 	public void runAction(Action action)
 	{
 		action.node = this;
-		this.actions.add(action);
+//		this.actions.add(action);
+		this.actionsToAdd.add(action);
 		this.hasActions = true;
 	}
 	
@@ -231,6 +234,14 @@ public class Node
 	void tick()
 	{
 //		System.out.println("   +Node Tick");
+		if(!this.realChildrenToAdd.isEmpty())
+		{
+			this.realChildren.addAll(this.realChildrenToAdd);
+			this.realChildrenToAdd.clear();
+		}
+		
+		this.children = realChildren.toArray(new Node[realChildren.size()]);
+		
 		if (!this.realChildren.isEmpty())
 		{
 			LinkedList<Node> fauxChildren = this.realChildren;
@@ -254,6 +265,11 @@ public class Node
 		
 		if (this.hasActions)
 		{
+			if (!this.actionsToAdd.isEmpty())
+			{
+				this.actions.addAll(this.actionsToAdd);
+				this.actionsToAdd.clear();
+			}
 			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
 			{
 				Action action = childAction.next();

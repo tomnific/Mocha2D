@@ -115,6 +115,14 @@ public class SpriteNode extends Node
 	{
 //		System.out.println("   -SpriteNode Tick");
 //		this.position.x += velX;
+		if(!this.realChildrenToAdd.isEmpty())
+		{
+			this.realChildren.addAll(this.realChildrenToAdd);
+			this.realChildrenToAdd.clear();
+		}
+		
+		this.children = realChildren.toArray(new Node[realChildren.size()]);
+		
 		if (!this.realChildren.isEmpty())
 		{
 			LinkedList<Node> fauxChildren = this.realChildren;
@@ -138,6 +146,11 @@ public class SpriteNode extends Node
 		
 		if (this.hasActions)
 		{
+			if (!this.actionsToAdd.isEmpty())
+			{
+				this.actions.addAll(this.actionsToAdd);
+				this.actionsToAdd.clear();
+			}
 			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
 			{
 				Action action = childAction.next();

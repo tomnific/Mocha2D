@@ -199,7 +199,7 @@ public class View extends Canvas implements Runnable
 					{
 						if(this.scene.realChildren.get(i).getPhysicsBody().body.intersects(this.scene.realChildren.get(j).getPhysicsBody().body))
 					    {
-							System.out.println("Contact!");
+//							System.out.println("Contact!");
 					    	PhysicsContact contact = new PhysicsContact(this.scene.realChildren.get(i).getPhysicsBody(), this.scene.realChildren.get(j).getPhysicsBody());
 					    	this.scene.didBeginContact(contact);
 					    }
@@ -207,6 +207,9 @@ public class View extends Canvas implements Runnable
 				}
 			}
 		}
+		
+		
+		this.scene.tick();
 		
 		
 		nodeCount = scene.realChildren.size(); // TODO: doesn't get count children's children
@@ -255,6 +258,7 @@ public class View extends Canvas implements Runnable
 			this.scene.realChildren.removeAll(toBeRemoved);
 		}
 		
+		this.scene.render(graphics);
 		
 		if (this.showsFPS && this.showsNodeCount)
 		{

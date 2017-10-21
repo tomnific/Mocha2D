@@ -6,7 +6,7 @@
  * @date April 2017
  */
 
-package com.tommetzger.mocha2d;
+package com.mocha2d;
 
 import java.awt.Graphics;
 import java.awt.Rectangle;

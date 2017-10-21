@@ -1,11 +1,11 @@
-package com.mocha2d.testgame;
+package com.tommetzger.mochatestgame;
 
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
-import com.tommetzger.mocha2d.*;
+import com.mocha2d.*;
 
 
 
@@ -93,9 +93,9 @@ public class GameScene extends Scene
 		
 		if(key == KeyEvent.VK_RIGHT)
 		{
-//			Action action = Action.moveByX(3);
-//			
-//			player.runAction(action);
+			Action action = Action.moveByX(3);
+			
+			player.runAction(action);
 		}
 		else if(key == KeyEvent.VK_LEFT)
 		{

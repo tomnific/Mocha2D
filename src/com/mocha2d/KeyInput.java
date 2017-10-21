@@ -1,4 +1,4 @@
-package com.tommetzger.mocha2d;
+package com.mocha2d;
 
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;

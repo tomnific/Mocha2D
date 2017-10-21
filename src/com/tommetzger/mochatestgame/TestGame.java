@@ -1,10 +1,10 @@
-package com.mocha2d.testgame;
+package com.tommetzger.mochatestgame;
 import java.awt.Canvas;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
-import com.tommetzger.mocha2d.*;
+import com.mocha2d.*;
 
 
 

@@ -1,31 +1,26 @@
-package com.tommetzger.mocha2d;
-
-import java.awt.Graphics;
+package com.mocha2d;
 
 
 
 
 
-class MoveByX extends Action 
+class MoveToX extends Action
 {
-	private double velX;
 	private double destX;
 	
 	
 	
-	public MoveByX(double x)
+	public MoveToX(double x)
 	{
-		velX = x;
+		destX = x;
 	}
 	
 	
 	
 	
 	public void tick()
-	{
-		destX = this.node.position.x + velX;
-		
-		if (velX > 0)
+	{	
+		if (destX > this.node.position.x)
 		{
 			this.node.position.x++;
 		}

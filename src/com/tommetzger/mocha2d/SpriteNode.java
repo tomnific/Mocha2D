@@ -169,12 +169,10 @@ public class SpriteNode extends Node
 			{
 				node.render(g);
 			}
-
 		}
 		
 		
 		g.drawImage(this.image, (int)this.position.x, (int)this.position.y, (int)this.size.width, (int)this.size.height, this.imageObserver);
-		
 		
 		g.dispose();
 	}

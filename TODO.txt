@@ -1,12 +1,13 @@
 TODO - v0.1
 
+- Give package release name so import is "com.mocha2d.*"
+
 - Node Types
-	• ShapeNode implementation
 	
 - Action Types
-	• Fix MoveBy Actions (they move exponentially faster)
+	• Fix MoveBy Actions (they move exponentially faster w/ key press)
 	
 - Scene
 		
 - View
-	• Fix ConcurrentModificationError in render() (then also fix in other render() functions)
+	• Fix ConcurrentModificationError in render() (then also fix in other render() functions if applicable)

@@ -1,5 +1,7 @@
 package com.mocha2d.testgame;
 
+import java.awt.Color;
+import java.awt.Rectangle;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 
@@ -146,9 +148,17 @@ public class GameScene extends Scene
 		}
 		else if (key == KeyEvent.VK_SPACE)
 		{
-			SpriteNode missile = new SpriteNode("/spaceship.png");
-			missile.position.x = player.position.x;
-			missile.position.y = player.position.y;
+			Rectangle missileRect = new Rectangle((int)(player.position.x + (player.size.width / 2) - 2), (int)player.position.y, 4, 15);
+			ShapeNode missile = new ShapeNode(missileRect);
+			
+			missile.fillColor = Color.BLACK;
+			missile.strokeColor = Color.ORANGE;
+			
+			missile.name = "missile";
+			
+			missile.setPhysicsBody(new PhysicsBody(1, 0));
+//			missile.position.x = player.position.x;
+//			missile.position.y = player.position.y;
 
 			this.addChild(missile);
 			
@@ -166,9 +176,17 @@ public class GameScene extends Scene
 	{
 		PhysicsBody firstBody = contact.bodyA;
 		PhysicsBody secondBody = contact.bodyB;
-		
+				
 		if (firstBody.collisionBitMask == secondBody.categoryBitMask)
 		{
+			System.out.println("Kaboom!");
+			secondBody.node.removeFromParent();
+			firstBody.node.removeFromParent();
+		}
+		else if (secondBody.collisionBitMask == firstBody.categoryBitMask)
+		{
+			System.out.println("Kaboom!");
+			firstBody.node.removeFromParent();
 			secondBody.node.removeFromParent();
 		}
 	}

@@ -262,14 +262,29 @@ public class View extends Canvas implements Runnable
 		
 		if (this.showsFPS && this.showsNodeCount)
 		{
+			int bgWidth = graphics.getFontMetrics().stringWidth("FPS: " + this.fps + ", Nodes: " + this.nodeCount);
+			int bgHeight = graphics.getFont().getSize();
+			graphics.setColor(new Color(250, 250, 250, 127));
+			graphics.fillRect(3, this.getHeight() - 5 - bgHeight, bgWidth + 3, bgHeight + 3);
+			graphics.setColor(Color.BLACK);
 			graphics.drawString("FPS: " + this.fps + ", Nodes: " + this.nodeCount, 5, this.getHeight() - 5);
 		}
 		else if (this.showsFPS)
 		{
+			int bgWidth = graphics.getFontMetrics().stringWidth("FPS: " + this.fps);
+			int bgHeight = graphics.getFont().getSize();
+			graphics.setColor(new Color(250, 250, 250, 127));
+			graphics.fillRect(3, this.getHeight() - 5 - bgHeight, bgWidth + 3, bgHeight + 3);
+			graphics.setColor(Color.BLACK);
 			graphics.drawString("FPS: " + this.fps, 5, this.getHeight() - 5);
 		}
 		else if (this.showsNodeCount)
 		{
+			int bgWidth = graphics.getFontMetrics().stringWidth("Nodes: " + this.nodeCount);
+			int bgHeight = graphics.getFont().getSize();
+			graphics.setColor(new Color(250, 250, 250, 127));
+			graphics.fillRect(3, this.getHeight() - 5 - bgHeight, bgWidth + 3, bgHeight + 3);
+			graphics.setColor(Color.BLACK);
 			graphics.drawString("Nodes: " + this.nodeCount, 5, this.getHeight() - 5);
 		}
 		

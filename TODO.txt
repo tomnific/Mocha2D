@@ -10,4 +10,3 @@ TODO - v0.1
 - Scene
 		
 - View
-	• Fix ConcurrentModificationError in render() (then also fix in other render() functions if applicable)

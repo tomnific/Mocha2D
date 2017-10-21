@@ -93,9 +93,9 @@ public class GameScene extends Scene
 		
 		if(key == KeyEvent.VK_RIGHT)
 		{
-			Action action = Action.moveByX(3);
-			
-			player.runAction(action);
+//			Action action = Action.moveByX(3);
+//			
+//			player.runAction(action);
 		}
 		else if(key == KeyEvent.VK_LEFT)
 		{
@@ -131,7 +131,7 @@ public class GameScene extends Scene
 		
 		
 		if(key == KeyEvent.VK_RIGHT)
-		{
+		{			
 			player.clearActions();
 		}
 		else if(key == KeyEvent.VK_LEFT)

@@ -115,7 +115,6 @@ public class SpriteNode extends Node
 	
 	void tick()
 	{
-//		System.out.println("   -SpriteNode Tick");
 //		this.position.x += velX;
 		if(!this.realChildrenToAdd.isEmpty())
 		{
@@ -173,6 +172,8 @@ public class SpriteNode extends Node
 		{
 			this.getPhysicsBody().body= this.getBounds();
 		}
+		
+		this.controllerView.nodesTicked++;
 	}
 	
 	

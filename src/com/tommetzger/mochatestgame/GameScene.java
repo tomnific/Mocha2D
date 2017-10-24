@@ -42,7 +42,7 @@ public class GameScene extends Scene
 		player.size.width = 50;
 		player.size.height = 50;
 		
-		player.setPhysicsBody(new PhysicsBody(1, 0));
+//		player.setPhysicsBody(new PhysicsBody(1, 0));
 		
 		this.addChild(player);
 				
@@ -206,12 +206,12 @@ public class GameScene extends Scene
 		}
 		else if(rightIsPressed)
 		{
-			Action action = Action.moveByX(-3);
+			Action action = Action.moveByX(3);
 			player.runAction(action);
 		}
 		else if(leftIsPressed)
 		{
-			Action action = Action.moveByX(3);
+			Action action = Action.moveByX(-3);
 			player.runAction(action);
 		}
 		else if(upIsPressed)

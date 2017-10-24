@@ -152,6 +152,12 @@ public class LabelNode extends Node
 		
 		if (this.hasActions)
 		{
+			if (!this.actionsToAdd.isEmpty())
+			{
+				this.actions.addAll(this.actionsToAdd);
+				this.actionsToAdd.clear();
+			}
+			LinkedList<Action> toBeRemoved = new LinkedList<Action>();
 			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
 			{
 				Action action = childAction.next();
@@ -159,13 +165,20 @@ public class LabelNode extends Node
 				{
 					action.tick();
 				}
+				else
+				{
+					toBeRemoved.add(action);
+				}
 			}
+			this.actions.removeAll(toBeRemoved);
 		}
 		
 		if (this.hasPhysicsBody)
 		{
 			this.getPhysicsBody().body = this.getBounds();
 		}
+		
+		this.controllerView.nodesTicked++;
 	}
 	
 	

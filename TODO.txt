@@ -7,4 +7,3 @@ TODO - v0.1
 - Scene
 		
 - View
-   • Make node count accurate 

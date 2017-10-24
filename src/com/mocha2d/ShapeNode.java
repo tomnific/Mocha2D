@@ -171,6 +171,8 @@ public class ShapeNode extends Node
 		{
 			this.getPhysicsBody().body = this.getBounds();
 		}
+		
+		this.controllerView.nodesTicked++;
 	}
 	
 	

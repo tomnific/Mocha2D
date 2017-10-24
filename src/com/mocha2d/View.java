@@ -33,6 +33,8 @@ public class View extends Canvas implements Runnable
 	
 	public Scene scene;
 	
+	int nodesTicked = 0;
+	
 	
 	
 	
@@ -197,7 +199,7 @@ public class View extends Canvas implements Runnable
 //				}
 //				else
 //				{
-					node.tick();
+//					node.tick();
 //				}
 			}
 			
@@ -224,7 +226,8 @@ public class View extends Canvas implements Runnable
 		this.scene.tick();
 		
 		
-		nodeCount = scene.realChildren.size(); // TODO: doesn't get count children's children
+		nodeCount = nodesTicked;//scene.realChildren.size(); // TODO: doesn't get count children's children
+		nodesTicked = 0;		
 	}
 	
 	

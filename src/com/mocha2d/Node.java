@@ -291,6 +291,8 @@ public class Node
 		{
 			this.getPhysicsBody().body= this.getBounds();
 		}
+		
+		this.controllerView.nodesTicked++;
 	}
 	
 	

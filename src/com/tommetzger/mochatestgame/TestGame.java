@@ -33,7 +33,7 @@ public class TestGame extends Canvas
 		GameScene scene = new GameScene();
 		View view = new View();
 		
-		view.setPreferredSize(new Dimension(320, 420));
+		view.setPreferredSize(new Dimension(750, 500));
 		
 		//Debug
 		view.showsFPS = true;

@@ -1,7 +1,5 @@
 package com.mocha2d;
 
-import java.awt.Graphics;
-
 
 
 
@@ -10,6 +8,7 @@ class MoveByX extends Action
 {
 	private double velX;
 	private double destX;
+	private boolean destinationCalculated = false;
 	
 	
 	
@@ -23,20 +22,33 @@ class MoveByX extends Action
 	
 	public void tick()
 	{
-		destX = this.node.position.x + velX;
-		
+		if (!destinationCalculated)
+		{
+			destX = this.node.position.x + velX;
+			destinationCalculated = true;
+		}
+				
 		if (velX > 0)
 		{
-			this.node.position.x++;
+			if (this.node.position.x >= destX)
+			{
+				this.actionComplete = true;
+			}
+			else
+			{
+				this.node.position.x++;
+			}
 		}
-		else
+		else 
 		{
-			this.node.position.x--;
-		}
-		
-		if (this.node.position.x == destX)
-		{
-			this.actionComplete = true;
+			if (this.node.position.x <= destX)
+			{
+				this.actionComplete = true;
+			}
+			else
+			{
+				this.node.position.x--;
+			}
 		}
 	}
 }

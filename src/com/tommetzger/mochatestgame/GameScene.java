@@ -20,6 +20,12 @@ public class GameScene extends Scene
 	
 	public int velX = 0;
 	boolean runAction = false;
+	
+	boolean upIsPressed = false;
+	boolean downIsPressed = false;
+	boolean leftIsPressed = false;
+	boolean rightIsPressed = false;
+	
 
 	
 	
@@ -66,22 +72,38 @@ public class GameScene extends Scene
 		
 		this.addChild(enemy);
 	}
+	
+	
+	
+	
+	@Override
+	public void mouseDown(MouseEvent e)
+	{
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Down!");
+	}
 
 
 
 
 	@Override
-	public void update() 
-	{		
-//		Action action = new Action(player);//Action.moveNodeByX(player, velX);
-//		
-//		if (runAction)
-//		{
-//		player.runAction(action);
-//		}
-//		System.out.println("PlayerX: " + player.position.x);
+	public void mouseDragged(MouseEvent e) 
+	{
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Dragged!");
 	}
 
+
+
+
+	@Override
+	public void mouseUp(MouseEvent e) 
+	{
+		// TODO Auto-generated method stub
+		System.out.println("Mouse Up!");
+	}
+	
+	
 	
 	
 	
@@ -93,31 +115,19 @@ public class GameScene extends Scene
 		
 		if(key == KeyEvent.VK_RIGHT)
 		{
-			Action action = Action.moveByX(3);
-			
-			player.runAction(action);
+			rightIsPressed = true;
 		}
 		else if(key == KeyEvent.VK_LEFT)
 		{
-			Action action = Action.moveByX(-3);
-			
-			player.runAction(action);
+			leftIsPressed = true;
 		}
 		else if(key == KeyEvent.VK_UP)
 		{
-			Action action = Action.moveByY(-3);
-			
-			player.runAction(action);
+			upIsPressed = true;
 		}
 		else if(key == KeyEvent.VK_DOWN)
 		{
-			Action action = Action.moveByY(3);
-			
-			player.runAction(action);
-		}
-		else if (key == KeyEvent.VK_D)
-		{
-			player.removeFromParent();
+			downIsPressed = true;
 		}
 	}
 
@@ -131,20 +141,20 @@ public class GameScene extends Scene
 		
 		
 		if(key == KeyEvent.VK_RIGHT)
-		{			
-			player.clearActions();
+		{
+			rightIsPressed = false;
 		}
 		else if(key == KeyEvent.VK_LEFT)
 		{
-			player.clearActions();
+			leftIsPressed = false;
 		}
 		else if(key == KeyEvent.VK_UP)
 		{
-			player.clearActions();
+			upIsPressed = false;
 		}
 		else if(key == KeyEvent.VK_DOWN)
 		{
-			player.clearActions();
+			downIsPressed = false;
 		}
 		else if (key == KeyEvent.VK_SPACE)
 		{
@@ -172,6 +182,54 @@ public class GameScene extends Scene
 
 
 	@Override
+	public void update() 
+	{		
+		if(rightIsPressed && upIsPressed)
+		{
+			Action action = Action.moveBy(3, -3);
+			player.runAction(action);
+		}
+		else if(rightIsPressed && downIsPressed)
+		{
+			Action action = Action.moveBy(3, 3);
+			player.runAction(action);
+		}
+		else if(leftIsPressed && upIsPressed)
+		{
+			Action action = Action.moveBy(-3, -3);
+			player.runAction(action);
+		}
+		else if(leftIsPressed && downIsPressed)
+		{
+			Action action = Action.moveBy(-3, 3);
+			player.runAction(action);
+		}
+		else if(rightIsPressed)
+		{
+			Action action = Action.moveByX(-3);
+			player.runAction(action);
+		}
+		else if(leftIsPressed)
+		{
+			Action action = Action.moveByX(3);
+			player.runAction(action);
+		}
+		else if(upIsPressed)
+		{
+			Action action = Action.moveByY(-3);
+			player.runAction(action);
+		}
+		else if(downIsPressed)
+		{
+			Action action = Action.moveByY(3);
+			player.runAction(action);
+		}
+	}
+
+
+
+
+	@Override
 	public void didBeginContact(PhysicsContact contact) 
 	{
 		PhysicsBody firstBody = contact.bodyA;
@@ -189,35 +247,5 @@ public class GameScene extends Scene
 			firstBody.node.removeFromParent();
 			secondBody.node.removeFromParent();
 		}
-	}
-
-
-
-
-	@Override
-	public void mouseDown(MouseEvent e)
-	{
-		// TODO Auto-generated method stub
-		System.out.println("Mouse Down!");
-	}
-
-
-
-
-	@Override
-	public void mouseDragged(MouseEvent e) 
-	{
-		// TODO Auto-generated method stub
-		System.out.println("Mouse Dragged!");
-	}
-
-
-
-
-	@Override
-	public void mouseUp(MouseEvent e) 
-	{
-		// TODO Auto-generated method stub
-		System.out.println("Mouse Up!");
 	}
 }

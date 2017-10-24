@@ -1,12 +1,10 @@
 TODO - v0.1
 
-- Give package release name so import is "com.mocha2d.*"
-
 - Node Types
 	
 - Action Types
-	• Fix MoveBy Actions (they move exponentially faster w/ key press)
 	
 - Scene
 		
 - View
+   • Make node count accurate 

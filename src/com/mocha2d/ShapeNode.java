@@ -2,7 +2,9 @@ package com.mocha2d;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
 import java.awt.Rectangle;
+import java.awt.RenderingHints;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -149,6 +151,7 @@ public class ShapeNode extends Node
 				this.actions.addAll(this.actionsToAdd);
 				this.actionsToAdd.clear();
 			}
+			LinkedList<Action> toBeRemoved = new LinkedList<Action>();
 			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
 			{
 				Action action = childAction.next();
@@ -156,7 +159,12 @@ public class ShapeNode extends Node
 				{
 					action.tick();
 				}
+				else
+				{
+					toBeRemoved.add(action);
+				}
 			}
+			this.actions.removeAll(toBeRemoved);
 		}
 				
 		if (this.hasPhysicsBody)
@@ -170,7 +178,11 @@ public class ShapeNode extends Node
 	
 	void render(Graphics graphics)
 	{
-		final Graphics g = graphics.create();
+		final Graphics2D g = (Graphics2D) graphics.create();
+		
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		
 		
 		if (!this.realChildren.isEmpty())

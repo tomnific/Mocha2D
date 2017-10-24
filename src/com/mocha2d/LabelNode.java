@@ -5,6 +5,8 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontFormatException;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.io.BufferedInputStream;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -86,6 +88,7 @@ public class LabelNode extends Node
 	public void setFontSize(float fontSize)
 	{
 		this.fontSize = fontSize;
+		this.font = this.font.deriveFont(fontSize);
 	}
 	
 	
@@ -170,7 +173,11 @@ public class LabelNode extends Node
 	
 	void render(Graphics graphics)
 	{
-		final Graphics g = graphics.create();
+		final Graphics2D g = (Graphics2D) graphics.create();
+		
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		
 		
 		if (!this.realChildren.isEmpty())
@@ -187,6 +194,8 @@ public class LabelNode extends Node
 			this.font = this.font.deriveFont(fontSize);
 			g.setFont(this.font);
 		}
+		
+		g.setColor(this.fontColor);
 		g.drawString(this.text, (int)this.position.x, (int)this.position.y);
 		
 		

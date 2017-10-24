@@ -8,7 +8,7 @@ import javax.imageio.ImageIO;
 
 
 
-public class BufferedImageLoader 
+class BufferedImageLoader 
 {
 	private BufferedImage image;
 	

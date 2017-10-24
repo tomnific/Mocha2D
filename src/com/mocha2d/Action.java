@@ -25,6 +25,16 @@ public class Action
 	
 	
 	
+	public static Action moveBy(double x, double y)
+	{
+		MoveBy action = new MoveBy(x, y);
+		
+		return action;
+	}
+	
+	
+	
+	
 	public static Action moveByX(double x)
 	{
 		MoveByX action = new MoveByX(x);

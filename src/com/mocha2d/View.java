@@ -46,6 +46,12 @@ public class View extends Canvas implements Runnable
 	
 	public View (Scene scene)
 	{
+		if (this.scene != null && keyInput != null && mouseInput != null)
+		{
+			removeKeyListener(keyInput);
+			removeMouseListener(mouseInput);
+			removeMouseMotionListener(mouseInput);
+		}
 		this.scene = scene;
 		this.scene.view = this;
 		this.scene.imageObserver = this;
@@ -64,6 +70,12 @@ public class View extends Canvas implements Runnable
 	
 	public void presentScene(Scene scene)
 	{
+		if (this.scene != null && keyInput != null && mouseInput != null)
+		{
+			removeKeyListener(keyInput);
+			removeMouseListener(mouseInput);
+			removeMouseMotionListener(mouseInput);
+		}
 		this.scene = scene;
 		this.scenePresented = true;
 		this.scene.view = this;
@@ -110,7 +122,7 @@ public class View extends Canvas implements Runnable
 				}
 				
 				frames++;
-//				this.scene.update();
+				this.scene.update();
 				this.render();
 				
 				if(System.currentTimeMillis() - timer > 1000)
@@ -234,9 +246,9 @@ public class View extends Canvas implements Runnable
 		graphics.fillRect(0, 0, this.getWidth(), this.getHeight());
 		graphics.setColor(Color.BLACK);
 		
-		graphics.setRenderingHint(
-		        RenderingHints.KEY_TEXT_ANTIALIASING,
-		        RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		graphics.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 	
 		
 		if (!scene.realChildren.isEmpty())

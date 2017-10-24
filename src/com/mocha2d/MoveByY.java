@@ -8,6 +8,7 @@ class MoveByY extends Action
 {
 	private double velY;
 	private double destY;
+	private boolean destinationCalculated = false;
 	
 	
 	
@@ -21,20 +22,33 @@ class MoveByY extends Action
 	
 	public void tick()
 	{
-		destY = this.node.position.y + velY;
-		
+		if (!destinationCalculated)
+		{
+			destY = this.node.position.y + velY;
+			destinationCalculated = true;
+		}
+				
 		if (velY > 0)
 		{
-			this.node.position.y++;
+			if (this.node.position.y >= destY)
+			{
+				this.actionComplete = true;
+			}
+			else
+			{
+				this.node.position.y++;
+			}
 		}
-		else
+		else 
 		{
-			this.node.position.y--;
-		}
-		
-		if (this.node.position.y == destY)
-		{
-			this.actionComplete = true;
+			if (this.node.position.y <= destY)
+			{
+				this.actionComplete = true;
+			}
+			else
+			{
+				this.node.position.y--;
+			}
 		}
 	}
 }

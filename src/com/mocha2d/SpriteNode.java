@@ -8,6 +8,8 @@
 package com.mocha2d;
 
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.util.Iterator;
@@ -22,7 +24,7 @@ public class SpriteNode extends Node
 	private BufferedImage image = null;
 	private BufferedImageLoader loader = new BufferedImageLoader();
 	
-	public int velX = 0;
+
 	
 	
 	/// Empty SpriteNode constructor.
@@ -151,6 +153,7 @@ public class SpriteNode extends Node
 				this.actions.addAll(this.actionsToAdd);
 				this.actionsToAdd.clear();
 			}
+			LinkedList<Action> toBeRemoved = new LinkedList<Action>();
 			for (Iterator<Action> childAction = actions.iterator(); childAction.hasNext();) 
 			{
 				Action action = childAction.next();
@@ -158,7 +161,12 @@ public class SpriteNode extends Node
 				{
 					action.tick();
 				}
+				else
+				{
+					toBeRemoved.add(action);
+				}
 			}
+			this.actions.removeAll(toBeRemoved);
 		}
 				
 		if (this.hasPhysicsBody)
@@ -172,7 +180,11 @@ public class SpriteNode extends Node
 	
 	void render(Graphics graphics)
 	{
-		final Graphics g = graphics.create();
+		final Graphics2D g = (Graphics2D) graphics.create();
+		
+		g.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING, RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_INTERPOLATION, RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 		
 		
 		if (!this.realChildren.isEmpty())

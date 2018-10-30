@@ -3,7 +3,7 @@ A SpriteKit-like game library for Java.
 
 ## Getting Started
 ### Scenes
-A `Scene` is the root node for all Moch2D objects displayed in a view. It contains all of the `Nodes` and the rules for how they interact. These nodes provide the scene with content to pass up to the `View` for rendering.
+A `Scene` is the root node for all Mocha2D objects displayed in a view. It contains all of the `Nodes` and the rules for how they interact. These nodes provide the scene with content to pass up to the `View` for rendering.
 
 First, you need to make your `Scene`. To do this, create a new Java class that is a subclass of `Scene`, like so:
 
